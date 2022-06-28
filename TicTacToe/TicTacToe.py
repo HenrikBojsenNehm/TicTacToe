@@ -232,46 +232,56 @@ class App(tk.Frame):
 
         #Compact button system
         #-----------------------------------------------------------------
-        #A more compact way of making the matrix/playfeild (Does not work currently)
+        #A more compact way of making the matrix/playfeild
         compactBtn = {}
-        def makeMatrix() :
-            btnRow = 3
-            btnColumn = 3
-            global buttons, buttonMatrix
-            for i in range(btnRow*btnColumn) :
-                def click_b(x=i) :
-                    print(compactBtn[x]['text'])
-                    b = compactBtn[x]
-                    global xTurn, count, gameWon
-                    if gameWon!=0 :
-                        pass
-                    print(f'{xTurn} | {count} | {gameWon}')
-                    if b['image']=='pyimage1' and xTurn==True:
-                        b['image']=img_1; b.image=img_1
-                        xTurn=False
-                        count+=1
-                        gameStatus()
-                    elif b['image']=='pyimage1' and xTurn==False:
-                        b['image']=img_2; b.image=img_2
-                        xTurn=True
-                        count+=1
-                        gameStatus()
-                    else:
-                        messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
+        btnRow = 3
+        btnColumn = 3
+        global buttons, buttonMatrix
+        for i in range(btnRow*btnColumn) :
+            def click_b(x=i) :
+                b = compactBtn[x]
+                global xTurn, count, gameWon
+                if gameWon!=0 :
+                    pass
+                if b['image']=='pyimage1' and xTurn==True:
+                    b['image']=img_1; b.image=img_1
+                    xTurn=False
+                    count+=1
+                    gameStatus()
+                elif b['image']=='pyimage1' and xTurn==False:
+                    b['image']=img_2; b.image=img_2
+                    xTurn=True
+                    count+=1
+                    gameStatus()
+                else:
+                    messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
 
-                nameOfBtn = 'b_' + str(i+1)
-                compactBtn[i] = tk.Button(master, image=img_0, relief=SUNKEN, text=nameOfBtn, command=click_b); compactBtn[i].image=img_0
+            nameOfBtn = 'b_' + str(i+1)
+            compactBtn[i] = tk.Button(master, image=img_0, relief=SUNKEN, text=nameOfBtn, command=click_b); compactBtn[i].image=img_0
 
-            num = 0
-            for x in range(1, btnRow+1) :
-                buttonMatrix.append([])
-                for y in range(1, btnColumn+1) :
-                    buttonMatrix[x-1].append(compactBtn[num])
-                    compactBtn[num].grid(row=x-1, column=y-1, padx=(0,0), pady=(0,0))
-                    buttons.append(compactBtn[num])
-                    num+=1
+        num = 0
+        for x in range(1, btnRow+1) :
+            buttonMatrix.append([])
+            for y in range(1, btnColumn+1) :
+                if x <= 1 : 
+                    padyNum = [50,5]
+                elif x >= btnRow :
+                    padyNum = [5,50]
+                else :
+                    padyNum = [5,5]
+
+                if y <= 1 : 
+                    padxNum = [50,5]
+                elif y >= btnColumn :
+                    padxNum = [5,50]
+                else :
+                    padxNum = [5,5]
+
+                buttonMatrix[x-1].append(compactBtn[num])
+                compactBtn[num].grid(row=x-1, column=y-1, padx=(padxNum[0],padxNum[1]), pady=(padyNum[0],padyNum[1]))
+                buttons.append(compactBtn[num])
+                num+=1
         #------------------------|Compact button system|------------------
-        makeMatrix()
     #---------------------------------|start the game|-------------------        
 
 #--------------------------------|the app|-----------------------
