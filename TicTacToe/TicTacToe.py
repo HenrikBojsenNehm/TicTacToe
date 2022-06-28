@@ -1,11 +1,11 @@
 #imports
 #----------------------------------------------------------------
+from pydoc import cli
 import tkinter as tk
 import time
 
 from tkinter import *
 from tkinter import messagebox
-from tkinter.font import names
 from PIL import ImageTk, Image
 #------------------------------|imports|-------------------------
 
@@ -14,6 +14,8 @@ from PIL import ImageTk, Image
 xTurn = True
 count = 0
 gameWon = 0
+buttons = []
+buttonMatrix = []
 #----------------------------|gloabal variables|-----------------
 
 #Clear all widgets
@@ -58,44 +60,42 @@ class App(tk.Frame):
         
         #import the images
         #----------------------------------------------------------------
-        imageOpen_0 = Image.open('Assets\empty.png')
+        imageOpen_0 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\empty.png')
         image_0 = imageOpen_0.resize((175,175), Image.ANTIALIAS)
         img_0 = ImageTk.PhotoImage(image_0)
 
-        imageOpen_1 = Image.open('Assets\ImageX.png')
+        imageOpen_1 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageX.png')
         image_1 = imageOpen_1.resize((175,175), Image.ANTIALIAS)
         img_1 = ImageTk.PhotoImage(image_1)
 
-        imageOpen_2 = Image.open('Assets\ImageO.png')
+        imageOpen_2 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageO.png')
         image_2 = imageOpen_2.resize((175,175), Image.ANTIALIAS)
         img_2 = ImageTk.PhotoImage(image_2)
         #-----------------------------|import the images|----------------
 
         #button clicked function
         #----------------------------------------------------------------
-        def b_click(b):
-            global xTurn, count, gameWon
-            if gameWon!=0 :
-                pass
-            elif b['image']=='pyimage1' and xTurn==True:
-                b['image']=img_1; b.image=img_1
-                xTurn=False
-                count+=1
-            elif b['image']=='pyimage1' and xTurn==False:
-                b['image']=img_2; b.image=img_2
-                xTurn=True
-                count+=1
-            elif 'b' in b['text'] :
-                messagebox.showinfo('TicTacToe', b['text'])
-                print(b['text'])
-            else:
-                messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
+#        def b_click(b):
+#            global xTurn, count, gameWon
+#            if gameWon!=0 :
+#                pass
+#            if b['image']=='pyimage1' and xTurn==True:
+#                b['image']=img_1; b.image=img_1
+#                xTurn=False
+#                count+=1
+#            elif b['image']=='pyimage1' and xTurn==False:
+#                b['image']=img_2; b.image=img_2
+#                xTurn=True
+#                count+=1
+#            else:
+#                messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
         #-------------------------|button clicked function|---------------
             
             #check if win
             #----------------------------------------------------------------
+        def gameStatus() :
             gameBox = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-            buttonMatrix = [['', '', ''], ['', '', ''], ['', '', '']]
+            global gameWon, buttons, buttonMatrix
             for button in buttons :
                 y = button.grid_info()['row']
                 x = button.grid_info()['column']
@@ -199,59 +199,79 @@ class App(tk.Frame):
                 messagebox.showinfo('TicTacToe', 'The game is a tie')
             #--------------------|check if it's a tie|----------------------
 
-        
-        
-
-#        def testMatrix(b):
-#            if b['text']=='Next thing!':
-#                makeMatrix(True)
 
         #setup the board
         #----------------------------------------------------------------
-        buttons = []
-        b1 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b1)); b1.image = img_0
-        b2 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b2)); b2.image = img_0
-        b3 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b3)); b3.image = img_0
+#        b1 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b1)); b1.image = img_0
+#        b2 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b2)); b2.image = img_0
+#        b3 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b3)); b3.image = img_0
         
-        b4 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b4)); b4.image = img_0
-        b5 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b5)); b5.image = img_0
-        b6 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b6)); b6.image = img_0
+#        b4 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b4)); b4.image = img_0
+#        b5 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b5));# b5.image = img_0
+#        b6 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b6)); b6.image = img_0
 
-        b7 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b7)); b7.image = img_0
-        b8 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b8)); b8.image = img_0
-        b9 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b9)); b9.image = img_0
+#        b7 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b7)); b7.image = img_0
+#        b8 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b8)); b8.image = img_0
+#        b9 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b9)); b9.image = img_0
     #-----------------------|setup the board|-------------------------------
-
-#        nextButton = Button(master, text='Next thing!', command=lambda: testMatrix(nextButton))
         
         #put buttons on the grid
         #----------------------------------------------------------------
-        b1.grid(row=0, column=0, padx=(50,5), pady=(50,5)); buttons.append(b1)
-        b2.grid(row=0, column=1, pady=(50,5)); buttons.append(b2)
-        b3.grid(row=0, column=2, padx=(5,50), pady=(50,5)); buttons.append(b3)
+#        b1.grid(row=0, column=0, padx=(50,5), pady=(50,5)); #buttons.append(b1)
+#        b2.grid(row=0, column=1, pady=(50,5)); buttons.append(b2)
+#        b3.grid(row=0, column=2, padx=(5,50), pady=(50,5)); buttons.append(b3)
         
-        b4.grid(row=1, column=0, padx=(50,5)); buttons.append(b4)
-        b5.grid(row=1, column=1); buttons.append(b5)
-        b6.grid(row=1, column=2, padx=(5,50)); buttons.append(b6)
+#        b4.grid(row=1, column=0, padx=(50,5)); buttons.append(b4)
+#        b5.grid(row=1, column=1); #buttons.append(b5)
+#        b6.grid(row=1, column=2, padx=(5,50)); buttons.append(b6)
 
-        b7.grid(row=2, column=0, padx=(50,5), pady=(5,50)); buttons.append(b7)
-        b8.grid(row=2, column=1, pady=(5,50)); buttons.append(b8)
-        b9.grid(row=2, column=2, padx=(5,50), pady=(5,50)); buttons.append(b9)
+#        b7.grid(row=2, column=0, padx=(50,5), pady=(5,50)); buttons.append(b7)
+#        b8.grid(row=2, column=1, pady=(5,50)); buttons.append(b8)
+#        b9.grid(row=2, column=2, padx=(5,50), pady=(5,50)); #buttons.append(b9)
         #---------------------|put buttons on the grid|-------------------
-        
 
-#        nextButton.grid(row=3, column=1, padx=(5,50), pady=(5,50))
-
+        #Compact button system
+        #-----------------------------------------------------------------
         #A more compact way of making the matrix/playfeild (Does not work currently)
-#        def makeMatrix(makeIt) :
-#            btnRow = 3
-#            btnColumn = 3
-#            if makeIt==True :
-#                for i in range(btnRow*btnColumn) :
-#                    nameOfBtn = 'b_' + str(i+1)
-#                    globals()[nameOfBtn] = Button(master, text=nameOfBtn, command=lambda: b_click(globals()[nameOfBtn]))
-#                    globals()[nameOfBtn].grid(row=0, column=0, padx=(i*100,0))
+        compactBtn = {}
+        def makeMatrix() :
+            btnRow = 3
+            btnColumn = 3
+            global buttons, buttonMatrix
+            for i in range(btnRow*btnColumn) :
+                def click_b(x=i) :
+                    print(compactBtn[x]['text'])
+                    b = compactBtn[x]
+                    global xTurn, count, gameWon
+                    if gameWon!=0 :
+                        pass
+                    print(f'{xTurn} | {count} | {gameWon}')
+                    if b['image']=='pyimage1' and xTurn==True:
+                        b['image']=img_1; b.image=img_1
+                        xTurn=False
+                        count+=1
+                        gameStatus()
+                    elif b['image']=='pyimage1' and xTurn==False:
+                        b['image']=img_2; b.image=img_2
+                        xTurn=True
+                        count+=1
+                        gameStatus()
+                    else:
+                        messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
 
+                nameOfBtn = 'b_' + str(i+1)
+                compactBtn[i] = tk.Button(master, image=img_0, relief=SUNKEN, text=nameOfBtn, command=click_b); compactBtn[i].image=img_0
+
+            num = 0
+            for x in range(1, btnRow+1) :
+                buttonMatrix.append([])
+                for y in range(1, btnColumn+1) :
+                    buttonMatrix[x-1].append(compactBtn[num])
+                    compactBtn[num].grid(row=x-1, column=y-1, padx=(0,0), pady=(0,0))
+                    buttons.append(compactBtn[num])
+                    num+=1
+        #------------------------|Compact button system|------------------
+        makeMatrix()
     #---------------------------------|start the game|-------------------        
 
 #--------------------------------|the app|-----------------------
