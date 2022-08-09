@@ -44,7 +44,6 @@ class App(tk.Frame):
 #       selfMaster.geometry('600x400')
         selfMaster.testLabel = Label(text='Hi', font=('Helvetica', 15))
         selfMaster.testLabel.grid(row=0, column=0)
-        time.sleep(2)
         self.startGame(True, selfMaster)
     #------------------------------|start up scrren|-----------------
     
