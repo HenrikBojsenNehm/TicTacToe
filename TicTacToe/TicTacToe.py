@@ -1,5 +1,7 @@
 #imports
 #----------------------------------------------------------------
+from ast import Global
+from asyncio.windows_events import NULL
 from pydoc import cli
 import tkinter as tk
 import time
@@ -11,7 +13,7 @@ from PIL import ImageTk, Image
 
 #gloabal variables
 #----------------------------------------------------------------
-xTurn = True
+xTurn = True 
 count = 0
 gameWon = 0
 buttons = []
@@ -36,21 +38,71 @@ class App(tk.Frame):
         self.startUp()
     
 
-    #start up scrren
+    #start up
     #----------------------------------------------------------------
     def startUp(self):
         selfMaster = self.master
         selfMaster.title('Tic tac toe')
-#       selfMaster.geometry('600x400')
-        selfMaster.testLabel = Label(text='Hi', font=('Helvetica', 15))
-        selfMaster.testLabel.grid(row=0, column=0)
-        time.sleep(2)
-        self.startGame(True, selfMaster)
-    #------------------------------|start up scrren|-----------------
+
+        self.mainMenu(selfMaster)
+    #------------------------------|start up|------------------------
     
+    #main menu
+    #----------------------------------------------------------------
+    def mainMenu(self, master):
+        clearScreen(master)
+
+        master.geometry('600x400')
+        underTxt = StringVar()
+        gamemode = 0
+
+        print('Menu started')
+
+        title = Label(master, text='TicTacToe!', font=('Helvetica', 30))
+        underTitle = Label(master, textvariable=underTxt, font=('Helvetica',20))
+        title.pack(pady=5)
+        underTitle.pack(pady=10)
+        
+        underTxt.set('Select gamemode')
+        print(gamemode)
+
+        def gamemode1(gamemode):
+            for widget in master.winfo_children():
+                if isinstance(widget, tk.Button):
+                    widget.destroy();
+            gamemode = 1
+            mode1 = Button(master, text='Singleplayer', command=lambda:(runSolo(gamemode)), font=('Helvetica', 15))
+            mode2 = Button(master, text='Multiplayer', command=lambda:(runMulti(gamemode)), font=('Helvetica', 15))
+            underTxt.set('Select mode')
+            mode1.pack(pady=5)
+            mode2.pack(pady=5)
+            return gamemode
+
+        def runSolo(gamemode):
+            print(gamemode)
+            if gamemode == 1:
+                self.startGame(True, master)
+            else:
+                print('MODE SELECTION EROR')
+                return
+        
+        def runMulti(gamemode):
+            print(gamemode)
+            print("WORK IN PROGRESS")
+            if gamemode == 1:
+                return
+            else:
+                print('MODE SELECTION EROR')
+                return
+
+        gamemodeBtn1 = Button(master, text='Tic Tac Toe', command=lambda:(gamemode1(gamemode)), font=('Helvetica', 15))
+        gamemodeBtn1.pack(pady=5)
+    #--------------------------|main menu|---------------------------
+
     #start the game
     #----------------------------------------------------------------
     def startGame(self, solo, master):
+        master.geometry('')
         clearScreen(master)
         
         if(solo==True):
