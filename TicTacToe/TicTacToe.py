@@ -156,8 +156,7 @@ class App(tk.Frame):
                     gameBox[y][x] = 1
                 elif '3' in button['image'] :
                     gameBox[y][x] = 2
-
-                gameWon = 0
+                    
 
                 #check per row
                 #----------------------------------------------------------------
@@ -250,6 +249,27 @@ class App(tk.Frame):
             if  isZero==0 :
                 messagebox.showinfo('TicTacToe', 'The game is a tie')
             #--------------------|check if it's a tie|----------------------
+
+                        #end of round menu
+            #----------------------------------------------------------------
+            if gameWon != 0 or isZero==0 :
+                print('End of round menu start')
+                whoWonTxt = StringVar()
+                endMenuFrame = Frame(master)
+                endMenuFrame.place(relx=0.5, rely=0.5, anchor=CENTER)
+                if gameWon==1 :
+                    whoWonTxt.set('X has won this round')
+                elif gameWon==0 :
+                    whoWonTxt.set('O has won this round')
+                elif isZero==0 :
+                    whoWonTxt.set('Draw')
+                else :
+                    whoWonTxt.set('ERROR')
+                print(whoWonTxt.get())
+                whoWon = Label(endMenuFrame, textvariable=whoWonTxt, font=('Helvetica', 20))
+                whoWon.grid(row=0, column=1, pady=5)
+
+            #-----------------------|end of round menu|----------------------
 
 
         #setup the board
