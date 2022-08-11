@@ -64,7 +64,6 @@ class App(tk.Frame):
         underTitle.pack(pady=10)
         
         underTxt.set('Select gamemode')
-        print(gamemode)
 
         def gamemode1(gamemode):
             for widget in master.winfo_children():
@@ -79,7 +78,6 @@ class App(tk.Frame):
             return gamemode
 
         def runSolo(gamemode):
-            print(gamemode)
             if gamemode == 1:
                 self.startGame(True, master)
             else:
@@ -87,7 +85,7 @@ class App(tk.Frame):
                 return
         
         def runMulti(gamemode):
-            print(gamemode)
+            messagebox.showinfo('TicTacToe', 'Work in progress')
             print("WORK IN PROGRESS")
             if gamemode == 1:
                 return
@@ -158,6 +156,8 @@ class App(tk.Frame):
                     gameBox[y][x] = 1
                 elif '3' in button['image'] :
                     gameBox[y][x] = 2
+
+            gameWon = 0
 
                 #check per row
                 #----------------------------------------------------------------
