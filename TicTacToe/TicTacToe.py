@@ -157,7 +157,7 @@ class App(tk.Frame):
                 elif '3' in button['image'] :
                     gameBox[y][x] = 2
 
-            gameWon = 0
+                gameWon = 0
 
                 #check per row
                 #----------------------------------------------------------------
