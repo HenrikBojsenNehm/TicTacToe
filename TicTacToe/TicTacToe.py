@@ -97,6 +97,29 @@ class App(tk.Frame):
         gamemodeBtn1.pack(pady=5)
     #--------------------------|main menu|---------------------------
 
+    #end of round menu
+    #----------------------------------------------------------------
+    def endOfRoundMenu(self, gameWon, drawNum, master) :
+        print(f'gameWon: {gameWon} | drawNum: {drawNum}')
+        if gameWon != 0 or drawNum==0 :
+            print('End of round menu start')
+            whoWonTxt = StringVar()
+            endMenuFrame = Frame(master)
+            endMenuFrame.place(relx=0.5, rely=0.5, anchor=CENTER)
+            if gameWon==1 :
+                whoWonTxt.set('X has won this round')
+            elif gameWon==2 :
+                whoWonTxt.set('O has won this round')
+            elif drawNum==0 :
+                whoWonTxt.set('Draw')
+            else :
+                whoWonTxt.set('ERROR')
+            print(whoWonTxt.get())
+            whoWon = Label(endMenuFrame, textvariable=whoWonTxt, font=('Helvetica', 20))
+            whoWon.grid(row=0, column=1, pady=5)
+
+        #-----------------------|end of round menu|----------------------
+
     #start the game
     #----------------------------------------------------------------
     def startGame(self, solo, master):
@@ -141,11 +164,11 @@ class App(tk.Frame):
 #                messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
         #-------------------------|button clicked function|---------------
             
-            #check if win
-            #----------------------------------------------------------------
+        #check if win
+        #----------------------------------------------------------------
         def gameStatus() :
             gameBox = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-            global gameWon, buttons, buttonMatrix
+            global gameWon, buttons, buttonMatrix, gameEnded
             for button in buttons :
                 y = button.grid_info()['row']
                 x = button.grid_info()['column']
@@ -214,7 +237,7 @@ class App(tk.Frame):
                         buttonMatrix[2][0]['bg'] = '#00ff00'; buttonMatrix[2][0]['activebackground'] = '#00ff00'
                 #-------------------------------|check per diagonal|-------------------
 
-            #-------------------------------|check if win|-------------------
+        #-------------------------------|check if win|-------------------
 
 
             #announce winner
@@ -224,6 +247,7 @@ class App(tk.Frame):
                     messagebox.showinfo('TicTacToe', 'X Wins!')
                 elif gameWon==2 :
                     messagebox.showinfo('TicTacToe', 'O Wins!')
+                
             #--------------------------|announce winner|---------------------
 
             #print a shadow of the game board
@@ -250,26 +274,7 @@ class App(tk.Frame):
                 messagebox.showinfo('TicTacToe', 'The game is a tie')
             #--------------------|check if it's a tie|----------------------
 
-                        #end of round menu
-            #----------------------------------------------------------------
-            if gameWon != 0 or isZero==0 :
-                print('End of round menu start')
-                whoWonTxt = StringVar()
-                endMenuFrame = Frame(master)
-                endMenuFrame.place(relx=0.5, rely=0.5, anchor=CENTER)
-                if gameWon==1 :
-                    whoWonTxt.set('X has won this round')
-                elif gameWon==0 :
-                    whoWonTxt.set('O has won this round')
-                elif isZero==0 :
-                    whoWonTxt.set('Draw')
-                else :
-                    whoWonTxt.set('ERROR')
-                print(whoWonTxt.get())
-                whoWon = Label(endMenuFrame, textvariable=whoWonTxt, font=('Helvetica', 20))
-                whoWon.grid(row=0, column=1, pady=5)
-
-            #-----------------------|end of round menu|----------------------
+            self.endOfRoundMenu(gameWon, isZero, master)
 
 
         #setup the board
