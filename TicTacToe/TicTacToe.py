@@ -318,19 +318,21 @@ class App(tk.Frame):
                 b = compactBtn[x]
                 global xTurn, count, gameWon
                 if gameWon!=0 :
+                    messagebox.showinfo('TicTacToe', 'You have already lost.')
                     pass
-                if b['image']=='pyimage1' and xTurn==True:
-                    b['image']=img_1; b.image=img_1
-                    xTurn=False
-                    count+=1
-                    gameStatus()
-                elif b['image']=='pyimage1' and xTurn==False:
-                    b['image']=img_2; b.image=img_2
-                    xTurn=True
-                    count+=1
-                    gameStatus()
                 else:
-                    messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
+                    if b['image']=='pyimage1' and xTurn==True:
+                        b['image']=img_1; b.image=img_1
+                        xTurn=False
+                        count+=1
+                        gameStatus()
+                    elif b['image']=='pyimage1' and xTurn==False:
+                        b['image']=img_2; b.image=img_2
+                        xTurn=True
+                        count+=1
+                        gameStatus()
+                    else:
+                        messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
 
             nameOfBtn = 'b_' + str(i+1)
             compactBtn[i] = tk.Button(master, image=img_0, relief=SUNKEN, text=nameOfBtn, command=click_b); compactBtn[i].image=img_0
