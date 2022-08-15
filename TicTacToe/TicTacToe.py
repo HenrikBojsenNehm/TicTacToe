@@ -2,12 +2,14 @@
 #----------------------------------------------------------------
 from ast import Global
 from asyncio.windows_events import NULL
+from cgitb import grey
 from pydoc import cli
 import tkinter as tk
 import time
 
 from tkinter import *
 from tkinter import messagebox
+from turtle import width
 from PIL import ImageTk, Image
 #------------------------------|imports|-------------------------
 
@@ -103,6 +105,7 @@ class App(tk.Frame):
         print(f'gameWon: {gameWon} | drawNum: {drawNum}')
         if gameWon != 0 or drawNum==0 :
             print('End of round menu start')
+            time.sleep(0.25)
             whoWonTxt = StringVar()
             endMenuFrame = Frame(master)
             endMenuFrame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -116,7 +119,15 @@ class App(tk.Frame):
                 whoWonTxt.set('ERROR')
             print(whoWonTxt.get())
             whoWon = Label(endMenuFrame, textvariable=whoWonTxt, font=('Helvetica', 20))
-            whoWon.grid(row=0, column=1, pady=5)
+            replayBtn = Button(endMenuFrame, text='Play another round', font=('Helvetica', 15), command=lambda:(
+                time.sleep(0.25),
+                self.mainMenu(master)))
+            backToMenuBtn = Button(endMenuFrame, text='Menu', font=('Helvetica', 15), command=lambda:(
+                time.sleep(0.25),
+                self.mainMenu(master)))
+            whoWon.pack(pady=30, padx=15)
+            replayBtn.pack(pady=15, padx=15)
+            backToMenuBtn.pack(pady=15, padx=15)
 
         #-----------------------|end of round menu|----------------------
 
@@ -240,16 +251,6 @@ class App(tk.Frame):
         #-------------------------------|check if win|-------------------
 
 
-            #announce winner
-            #----------------------------------------------------------------
-            if gameWon!=0 :
-                if gameWon==1 :
-                    messagebox.showinfo('TicTacToe', 'X Wins!')
-                elif gameWon==2 :
-                    messagebox.showinfo('TicTacToe', 'O Wins!')
-                
-            #--------------------------|announce winner|---------------------
-
             #print a shadow of the game board
             #----------------------------------------------------------------
             print('')
@@ -270,8 +271,6 @@ class App(tk.Frame):
             for i in gameBox :
                 if 0 not in i and gameWon==0 :
                     isZero -= 1
-            if  isZero==0 :
-                messagebox.showinfo('TicTacToe', 'The game is a tie')
             #--------------------|check if it's a tie|----------------------
 
             self.endOfRoundMenu(gameWon, isZero, master)
