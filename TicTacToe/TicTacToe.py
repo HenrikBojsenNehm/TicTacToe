@@ -1,15 +1,10 @@
 #imports
 #----------------------------------------------------------------
-from ast import Global
-from asyncio.windows_events import NULL
-from cgitb import grey
-from pydoc import cli
 import tkinter as tk
 import time
 
 from tkinter import *
 from tkinter import messagebox
-from turtle import width
 from PIL import ImageTk, Image
 #------------------------------|imports|-------------------------
 
@@ -18,8 +13,13 @@ from PIL import ImageTk, Image
 xTurn = True 
 count = 0
 gameWon = 0
+score = {'xWins': 0, 'oWins': 0, 'draws': 0}
+img_0 = None
+img_1 = None
+img_2 = None
 buttons = []
 buttonMatrix = []
+importedImgs = False
 #----------------------------|gloabal variables|-----------------
 
 #Clear all widgets
@@ -45,13 +45,15 @@ class App(tk.Frame):
     def startUp(self):
         selfMaster = self.master
         selfMaster.title('Tic tac toe')
-
         self.mainMenu(selfMaster)
     #------------------------------|start up|------------------------
     
     #main menu
     #----------------------------------------------------------------
     def mainMenu(self, master):
+        global buttons
+
+        buttons = []
         clearScreen(master)
 
         master.geometry('600x400')
@@ -110,14 +112,17 @@ class App(tk.Frame):
             endMenuFrame = Frame(master)
             endMenuFrame.place(relx=0.5, rely=0.5, anchor=CENTER)
             if gameWon==1 :
+                score['xWins'] += 1
                 whoWonTxt.set('X has won this round')
             elif gameWon==2 :
+                score['oWins'] += 1
                 whoWonTxt.set('O has won this round')
             elif drawNum==0 :
+                score['draws'] += 1
                 whoWonTxt.set('Draw')
             else :
                 whoWonTxt.set('ERROR')
-            print(whoWonTxt.get())
+            print(f'{whoWonTxt.get()} the current score is: {score}')
             whoWon = Label(endMenuFrame, textvariable=whoWonTxt, font=('Helvetica', 20))
             replayBtn = Button(endMenuFrame, text='Play another round', font=('Helvetica', 15), command=lambda:(
                 time.sleep(0.25),
@@ -134,6 +139,15 @@ class App(tk.Frame):
     #start the game
     #----------------------------------------------------------------
     def startGame(self, solo, master):
+
+        global xTurn, count, gameWon
+
+        xTurn = True
+        count = 0
+        gameWon = 0
+
+        print(f'xTurn: {xTurn} count: {count} gameWon: {gameWon}')
+
         master.geometry('')
         clearScreen(master)
         
@@ -141,21 +155,6 @@ class App(tk.Frame):
             print('Are you okay?')
         else:
             print('Ok!')
-        
-        #import the images
-        #----------------------------------------------------------------
-        imageOpen_0 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\empty.png')
-        image_0 = imageOpen_0.resize((175,175), Image.ANTIALIAS)
-        img_0 = ImageTk.PhotoImage(image_0)
-
-        imageOpen_1 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageX.png')
-        image_1 = imageOpen_1.resize((175,175), Image.ANTIALIAS)
-        img_1 = ImageTk.PhotoImage(image_1)
-
-        imageOpen_2 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageO.png')
-        image_2 = imageOpen_2.resize((175,175), Image.ANTIALIAS)
-        img_2 = ImageTk.PhotoImage(image_2)
-        #-----------------------------|import the images|----------------
 
         #button clicked function
         #----------------------------------------------------------------
@@ -180,6 +179,7 @@ class App(tk.Frame):
         def gameStatus() :
             gameBox = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
             global gameWon, buttons, buttonMatrix, gameEnded
+
             for button in buttons :
                 y = button.grid_info()['row']
                 x = button.grid_info()['column']
@@ -305,6 +305,32 @@ class App(tk.Frame):
 #        b8.grid(row=2, column=1, pady=(5,50)); buttons.append(b8)
 #        b9.grid(row=2, column=2, padx=(5,50), pady=(5,50)); #buttons.append(b9)
         #---------------------|put buttons on the grid|-------------------
+        
+        #import the images
+        #----------------------------------------------------------------
+        def importImg() :
+            global img_0, img_1, img_2, importedImgs
+            
+            print(importedImgs)
+
+            if importedImgs == True :
+                pass
+            else :
+                imageOpen_0 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\empty.png')
+                image_0 = imageOpen_0.resize((175,175), Image.ANTIALIAS)
+                img_0 = ImageTk.PhotoImage(image_0)
+
+                imageOpen_1 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageX.png')
+                image_1 = imageOpen_1.resize((175,175), Image.ANTIALIAS)
+                img_1 = ImageTk.PhotoImage(image_1)
+
+                imageOpen_2 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageO.png')
+                image_2 = imageOpen_2.resize((175,175), Image.ANTIALIAS)
+                img_2 = ImageTk.PhotoImage(image_2)
+                importedImgs = True
+            return
+        importImg()
+        #-----------------------------|import the images|----------------
 
         #Compact button system
         #-----------------------------------------------------------------
@@ -317,6 +343,9 @@ class App(tk.Frame):
             def click_b(x=i) :
                 b = compactBtn[x]
                 global xTurn, count, gameWon
+
+                print(f'xTurn: {xTurn} count: {count} gameWon: {gameWon}')
+
                 if gameWon!=0 :
                     messagebox.showinfo('TicTacToe', 'You have already lost.')
                     pass
