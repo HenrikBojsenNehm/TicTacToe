@@ -14,13 +14,27 @@ xTurn = True
 count = 0
 gameWon = 0
 score = {'xWins': 0, 'oWins': 0, 'draws': 0}
-img_0 = None
-img_1 = None
-img_2 = None
 buttons = []
+images = {}
+assets = []
 buttonMatrix = []
 importedImgs = False
 #----------------------------|gloabal variables|-----------------
+
+#import the images
+#----------------------------------------------------------------
+imageOpen_0 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\empty.png')
+image_0 = imageOpen_0.resize((175,175), Image.ANTIALIAS)
+images[0] = image_0
+
+imageOpen_1 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageX.png')
+image_1 = imageOpen_1.resize((175,175), Image.ANTIALIAS)
+images[1] = image_1
+
+imageOpen_2 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageO.png')
+image_2 = imageOpen_2.resize((175,175), Image.ANTIALIAS)
+images[2] = image_2
+#-----------------------------|import the images|----------------
 
 #Clear all widgets
 #----------------------------------------------------------------
@@ -46,6 +60,9 @@ class App(tk.Frame):
         selfMaster = self.master
         selfMaster.title('Tic tac toe')
         self.mainMenu(selfMaster)
+        
+        for i in images :
+            assets.append(ImageTk.PhotoImage(images[i]))
     #------------------------------|start up|------------------------
     
     #main menu
@@ -306,32 +323,6 @@ class App(tk.Frame):
 #        b9.grid(row=2, column=2, padx=(5,50), pady=(5,50)); #buttons.append(b9)
         #---------------------|put buttons on the grid|-------------------
         
-        #import the images
-        #----------------------------------------------------------------
-        def importImg() :
-            global img_0, img_1, img_2, importedImgs
-            
-            print(importedImgs)
-
-            if importedImgs == True :
-                pass
-            else :
-                imageOpen_0 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\empty.png')
-                image_0 = imageOpen_0.resize((175,175), Image.ANTIALIAS)
-                img_0 = ImageTk.PhotoImage(image_0)
-
-                imageOpen_1 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageX.png')
-                image_1 = imageOpen_1.resize((175,175), Image.ANTIALIAS)
-                img_1 = ImageTk.PhotoImage(image_1)
-
-                imageOpen_2 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageO.png')
-                image_2 = imageOpen_2.resize((175,175), Image.ANTIALIAS)
-                img_2 = ImageTk.PhotoImage(image_2)
-                importedImgs = True
-            return
-        importImg()
-        #-----------------------------|import the images|----------------
-
         #Compact button system
         #-----------------------------------------------------------------
         #A more compact way of making the matrix/playfeild
@@ -339,6 +330,7 @@ class App(tk.Frame):
         btnRow = 3
         btnColumn = 3
         global buttons, buttonMatrix
+
         for i in range(btnRow*btnColumn) :
             def click_b(x=i) :
                 b = compactBtn[x]
@@ -351,12 +343,12 @@ class App(tk.Frame):
                     pass
                 else:
                     if b['image']=='pyimage1' and xTurn==True:
-                        b['image']=img_1; b.image=img_1
+                        b['image']=assets[1]; b.image=assets[1]
                         xTurn=False
                         count+=1
                         gameStatus()
                     elif b['image']=='pyimage1' and xTurn==False:
-                        b['image']=img_2; b.image=img_2
+                        b['image']=assets[2]; b.image=assets[2]
                         xTurn=True
                         count+=1
                         gameStatus()
@@ -364,7 +356,7 @@ class App(tk.Frame):
                         messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
 
             nameOfBtn = 'b_' + str(i+1)
-            compactBtn[i] = tk.Button(master, image=img_0, relief=SUNKEN, text=nameOfBtn, command=click_b); compactBtn[i].image=img_0
+            compactBtn[i] = tk.Button(master, image=assets[0], relief=SUNKEN, text=nameOfBtn, command=click_b); compactBtn[i].image=assets[0]
 
         num = 0
         for x in range(1, btnRow+1) :
