@@ -185,24 +185,6 @@ class App(tk.Frame):
         roundTxt = f'Round {round}'
         roundLbl = Label(master, text=roundTxt, font=('Helvetica', 20))
         roundLbl.grid(row=0, column=1, pady=15, padx=15)
-
-        #button clicked function
-        #----------------------------------------------------------------
-#        def b_click(b):
-#            global xTurn, count, gameWon
-#            if gameWon!=0 :
-#                pass
-#            if b['image']=='pyimage1' and xTurn==True:
-#                b['image']=img_1; b.image=img_1
-#                xTurn=False
-#                count+=1
-#            elif b['image']=='pyimage1' and xTurn==False:
-#                b['image']=img_2; b.image=img_2
-#                xTurn=True
-#                count+=1
-#            else:
-#                messagebox.showerror('TicTacToe', 'The box is already in use.\npick another box...')
-        #-------------------------|button clicked function|---------------
             
         #check if win
         #----------------------------------------------------------------
@@ -304,37 +286,6 @@ class App(tk.Frame):
             #--------------------|check if it's a tie|----------------------
 
             self.endOfRoundMenu(gameWon, isZero, master)
-
-
-        #setup the board
-        #----------------------------------------------------------------
-#        b1 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b1)); b1.image = img_0
-#        b2 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b2)); b2.image = img_0
-#        b3 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b3)); b3.image = img_0
-        
-#        b4 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b4)); b4.image = img_0
-#        b5 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b5));# b5.image = img_0
-#        b6 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b6)); b6.image = img_0
-
-#        b7 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b7)); b7.image = img_0
-#        b8 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b8)); b8.image = img_0
-#        b9 = Button(master, image=img_0, relief=SUNKEN, command=lambda: b_click(b9)); b9.image = img_0
-    #-----------------------|setup the board|-------------------------------
-        
-        #put buttons on the grid
-        #----------------------------------------------------------------
-#        b1.grid(row=0, column=0, padx=(50,5), pady=(50,5)); #buttons.append(b1)
-#        b2.grid(row=0, column=1, pady=(50,5)); buttons.append(b2)
-#        b3.grid(row=0, column=2, padx=(5,50), pady=(50,5)); buttons.append(b3)
-        
-#        b4.grid(row=1, column=0, padx=(50,5)); buttons.append(b4)
-#        b5.grid(row=1, column=1); #buttons.append(b5)
-#        b6.grid(row=1, column=2, padx=(5,50)); buttons.append(b6)
-
-#        b7.grid(row=2, column=0, padx=(50,5), pady=(5,50)); buttons.append(b7)
-#        b8.grid(row=2, column=1, pady=(5,50)); buttons.append(b8)
-#        b9.grid(row=2, column=2, padx=(5,50), pady=(5,50)); #buttons.append(b9)
-        #---------------------|put buttons on the grid|-------------------
         
         #Compact button system
         #-----------------------------------------------------------------
