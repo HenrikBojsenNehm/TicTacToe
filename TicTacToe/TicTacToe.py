@@ -5,6 +5,7 @@ import time
 
 from tkinter import *
 from tkinter import messagebox
+from xmlrpc.client import Boolean
 from PIL import ImageTk, Image
 #------------------------------|imports|-------------------------
 
@@ -13,6 +14,8 @@ from PIL import ImageTk, Image
 xTurn = True 
 count = 0
 gameWon = 0
+gameMode = 0
+solo = bool
 score = {'xWins': 0, 'oWins': 0, 'draws': 0}
 buttons = []
 images = {}
@@ -68,60 +71,55 @@ class App(tk.Frame):
     #main menu
     #----------------------------------------------------------------
     def mainMenu(self, master):
-        global buttons
-
-        buttons = []
+        for i in score :
+            score[i] = 0
         clearScreen(master)
 
         master.geometry('600x400')
         underTxt = StringVar()
-        gamemode = 0
 
         print('Menu started')
 
         title = Label(master, text='TicTacToe!', font=('Helvetica', 30))
         underTitle = Label(master, textvariable=underTxt, font=('Helvetica',20))
-        title.pack(pady=5)
+        title.pack(pady=15)
         underTitle.pack(pady=10)
         
         underTxt.set('Select gamemode')
 
-        def gamemode1(gamemode):
+        def gamemode(gameModeVal):
             for widget in master.winfo_children():
                 if isinstance(widget, tk.Button):
                     widget.destroy();
-            gamemode = 1
-            mode1 = Button(master, text='Singleplayer', command=lambda:(runSolo(gamemode)), font=('Helvetica', 15))
-            mode2 = Button(master, text='Multiplayer', command=lambda:(runMulti(gamemode)), font=('Helvetica', 15))
+            global gameMode
+            gameMode = gameModeVal
+            mode1 = Button(master, text='Singleplayer', command=lambda:(runSolo()), font=('Helvetica', 15))
+            mode2 = Button(master, text='Multiplayer', command=lambda:(runMulti()), font=('Helvetica', 15))
             underTxt.set('Select mode')
             mode1.pack(pady=5)
             mode2.pack(pady=5)
-            return gamemode
-
-        def runSolo(gamemode):
-            if gamemode == 1:
-                self.startGame(True, master)
-            else:
-                print('MODE SELECTION EROR')
-                return
         
-        def runMulti(gamemode):
+
+        def runSolo():
+            global solo
+            solo = True
+            self.startGame(master)
+        
+        def runMulti():
+            global solo
+            solo = False
             messagebox.showinfo('TicTacToe', 'Work in progress')
             print("WORK IN PROGRESS")
-            if gamemode == 1:
-                return
-            else:
-                print('MODE SELECTION EROR')
-                return
+            self.startGame(master)
 
-        gamemodeBtn1 = Button(master, text='Tic Tac Toe', command=lambda:(gamemode1(gamemode)), font=('Helvetica', 15))
+        gamemodeBtn1 = Button(master, text='Tic Tac Toe', command=lambda:(gamemode(1)), font=('Helvetica', 15))
         gamemodeBtn1.pack(pady=5)
     #--------------------------|main menu|---------------------------
 
     #end of round menu
     #----------------------------------------------------------------
     def endOfRoundMenu(self, gameWon, drawNum, master) :
-        print(f'gameWon: {gameWon} | drawNum: {drawNum}')
+        global gameMode, solo
         if gameWon != 0 or drawNum==0 :
             print('End of round menu start')
             time.sleep(0.25)
@@ -143,7 +141,7 @@ class App(tk.Frame):
             whoWon = Label(endMenuFrame, textvariable=whoWonTxt, font=('Helvetica', 20))
             replayBtn = Button(endMenuFrame, text='Play another round', font=('Helvetica', 15), command=lambda:(
                 time.sleep(0.25),
-                self.mainMenu(master)))
+                self.startGame(master)))
             backToMenuBtn = Button(endMenuFrame, text='Menu', font=('Helvetica', 15), command=lambda:(
                 time.sleep(0.25),
                 self.mainMenu(master)))
@@ -155,23 +153,38 @@ class App(tk.Frame):
 
     #start the game
     #----------------------------------------------------------------
-    def startGame(self, solo, master):
+    def startGame(self, master):
 
-        global xTurn, count, gameWon
+        global xTurn, count, gameWon, gameMode, solo, buttons
 
         xTurn = True
         count = 0
         gameWon = 0
-
-        print(f'xTurn: {xTurn} count: {count} gameWon: {gameWon}')
+        buttons = []
 
         master.geometry('')
         clearScreen(master)
         
+        if gameMode == 1:
+            print('Mode: Tic Tac Toe')
+        else:
+            print('MODE SELECTION EROR')
+            return
+
         if(solo==True):
             print('Are you okay?')
         else:
             print('Ok!')
+
+        round = 1
+        for value in score :
+            round += int(score[value])
+
+        print(f'Round: {round}')
+
+        roundTxt = f'Round {round}'
+        roundLbl = Label(master, text=roundTxt, font=('Helvetica', 20))
+        roundLbl.grid(row=0, column=1, pady=15, padx=15)
 
         #button clicked function
         #----------------------------------------------------------------
@@ -195,10 +208,10 @@ class App(tk.Frame):
         #----------------------------------------------------------------
         def gameStatus() :
             gameBox = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-            global gameWon, buttons, buttonMatrix, gameEnded
+            global gameWon, buttonMatrix, gameEnded
 
             for button in buttons :
-                y = button.grid_info()['row']
+                y = button.grid_info()['row']-1
                 x = button.grid_info()['column']
                 buttonMatrix[y][x] = button
                 if '1' in button['image'] :
@@ -329,7 +342,7 @@ class App(tk.Frame):
         compactBtn = {}
         btnRow = 3
         btnColumn = 3
-        global buttons, buttonMatrix
+        global buttonMatrix
 
         for i in range(btnRow*btnColumn) :
             def click_b(x=i) :
@@ -363,7 +376,7 @@ class App(tk.Frame):
             buttonMatrix.append([])
             for y in range(1, btnColumn+1) :
                 if x <= 1 : 
-                    padyNum = [50,5]
+                    padyNum = [15,5]
                 elif x >= btnRow :
                     padyNum = [5,50]
                 else :
@@ -377,7 +390,7 @@ class App(tk.Frame):
                     padxNum = [5,5]
 
                 buttonMatrix[x-1].append(compactBtn[num])
-                compactBtn[num].grid(row=x-1, column=y-1, padx=(padxNum[0],padxNum[1]), pady=(padyNum[0],padyNum[1]))
+                compactBtn[num].grid(row=x, column=y-1, padx=(padxNum[0],padxNum[1]), pady=(padyNum[0],padyNum[1]))
                 buttons.append(compactBtn[num])
                 num+=1
         #------------------------|Compact button system|------------------
