@@ -1,4 +1,3 @@
-from math import gamma
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
@@ -19,6 +18,8 @@ class TicTacToe:
         count = 0
         gameWon = 0
         buttons =[]
+
+        print(assets)
 
         #check if win
         #----------------------------------------------------------------
