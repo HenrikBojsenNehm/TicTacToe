@@ -83,7 +83,9 @@ class App(tk.Frame):
 
         def gamemode(gameModeVal):
             for widget in master.winfo_children():
-                if isinstance(widget, tk.Button):
+                if widget == quitGameBtn:
+                    widget.pack_forget()
+                elif isinstance(widget, tk.Button):
                     widget.destroy();
             global gameMode
             gameMode = gameModeVal
@@ -92,6 +94,7 @@ class App(tk.Frame):
             underTxt.set('Select mode')
             mode1.pack(pady=5)
             mode2.pack(pady=5)
+            quitGameBtn.pack(pady=5)
         
 
         def runSolo():
@@ -110,6 +113,8 @@ class App(tk.Frame):
         gamemodeBtn1.pack(pady=5)
         #gamemodeBtn2 = Button(master, text='Ultimate Tic Tac Toe', command=lambda:(gamemode(2)), font=('Helvetica', 15))
         #gamemodeBtn2.pack(pady=5)
+        quitGameBtn = Button(master, text='Quit', command=master.destroy, font=('Helvetica', 15))
+        quitGameBtn.pack(pady=5)
     #--------------------------|main menu|---------------------------
 
     #end of round menu
