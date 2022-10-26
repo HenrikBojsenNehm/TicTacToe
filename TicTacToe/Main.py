@@ -2,8 +2,10 @@
 #----------------------------------------------------------------
 import tkinter as tk
 import time
+import os
 from tkinter import *
 from tkinter import messagebox
+from xml.etree.ElementTree import tostring
 from PIL import ImageTk, Image
 import Gamemodes
 #------------------------------|imports|-------------------------
@@ -19,16 +21,17 @@ assets = []
 
 #import the images
 #----------------------------------------------------------------
-imageOpen_0 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\empty.png')
-image_0 = imageOpen_0.resize((175,175), Image.ANTIALIAS)
+imageFile_0 = 'wee'
+imageOpen_0 = Image.open(os.path.join(os.getcwd(), 'TicTacToe\Assets\empty.png').replace('\\', '/'))
+image_0 = imageOpen_0.resize((175,175), Image.Resampling.LANCZOS)
 images[0] = image_0
 
-imageOpen_1 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageX.png')
-image_1 = imageOpen_1.resize((175,175), Image.ANTIALIAS)
+imageOpen_1 = Image.open(os.path.join(os.getcwd(), 'TicTacToe\Assets\imageX.png').replace('\\', '/'))
+image_1 = imageOpen_1.resize((175,175), Image.Resampling.LANCZOS)
 images[1] = image_1
 
-imageOpen_2 = Image.open('D:\Work\Python\TicTacToe.Py\TicTacToe\Assets\imageO.png')
-image_2 = imageOpen_2.resize((175,175), Image.ANTIALIAS)
+imageOpen_2 = Image.open(os.path.join(os.getcwd(), 'TicTacToe\Assets\imageO.png').replace('\\', '/'))
+image_2 = imageOpen_2.resize((175,175), Image.Resampling.LANCZOS)
 images[2] = image_2
 #-----------------------------|import the images|----------------
 
