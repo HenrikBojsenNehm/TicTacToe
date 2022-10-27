@@ -19,8 +19,6 @@ class TicTacToe:
         gameWon = 0
         buttons =[]
 
-        print(assets)
-
         #check if win
         #----------------------------------------------------------------
         def gameStatus() :

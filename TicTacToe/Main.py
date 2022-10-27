@@ -1,5 +1,6 @@
 #imports
 #----------------------------------------------------------------
+from doctest import master
 import tkinter as tk
 import time
 import os
@@ -40,6 +41,14 @@ def clearScreen(master):
         widgets.destroy()
 #-------------------------------|Clear all widgets|--------------
 
+#Add a quit game button
+#----------------------------------------------------------------
+def addQuitBtn(master, parrent=master):
+    quitGameBtn = Button(parrent, name='quitGameBtn', text='Quit', command=master.destroy, font=('Helvetica', 15))
+    return quitGameBtn
+#----------------------|Add a quit game button|------------------
+
+
 
 #the app
 #----------------------------------------------------------------
@@ -72,8 +81,6 @@ class App(tk.Frame):
         master.geometry('600x400')
         underTxt = StringVar()
 
-        print('Menu started')
-
         title = Label(master, text='TicTacToe!', font=('Helvetica', 30))
         underTitle = Label(master, textvariable=underTxt, font=('Helvetica',20))
         title.pack(pady=15)
@@ -83,14 +90,13 @@ class App(tk.Frame):
 
         def gamemode(gameModeVal):
             for widget in master.winfo_children():
-                if widget == quitGameBtn:
-                    widget.pack_forget()
-                elif isinstance(widget, tk.Button):
+                if isinstance(widget, tk.Button):
                     widget.destroy();
             global gameMode
             gameMode = gameModeVal
             mode1 = Button(master, text='Singleplayer', command=lambda:(runSolo()), font=('Helvetica', 15))
             mode2 = Button(master, text='Multiplayer', command=lambda:(runMulti()), font=('Helvetica', 15))
+            quitGameBtn = addQuitBtn(master)
             underTxt.set('Select mode')
             mode1.pack(pady=5)
             mode2.pack(pady=5)
@@ -113,7 +119,7 @@ class App(tk.Frame):
         gamemodeBtn1.pack(pady=5)
         #gamemodeBtn2 = Button(master, text='Ultimate Tic Tac Toe', command=lambda:(gamemode(2)), font=('Helvetica', 15))
         #gamemodeBtn2.pack(pady=5)
-        quitGameBtn = Button(master, text='Quit', command=master.destroy, font=('Helvetica', 15))
+        quitGameBtn = addQuitBtn(master)
         quitGameBtn.pack(pady=5)
     #--------------------------|main menu|---------------------------
 
@@ -122,7 +128,6 @@ class App(tk.Frame):
     def endOfRoundMenu(self, gameWon, drawNum, master) :
         global gameMode, solo
         if gameWon != 0 or drawNum==0 :
-            print('End of round menu start')
             time.sleep(0.25)
             whoWonTxt = StringVar()
             endMenuFrame = Frame(master)
@@ -146,9 +151,11 @@ class App(tk.Frame):
             backToMenuBtn = Button(endMenuFrame, text='Menu', font=('Helvetica', 15), command=lambda:(
                 time.sleep(0.25),
                 self.mainMenu(master)))
+            quitGameBtn = addQuitBtn(master, endMenuFrame)
             whoWon.pack(pady=30, padx=15)
             replayBtn.pack(pady=15, padx=15)
             backToMenuBtn.pack(pady=15, padx=15)
+            quitGameBtn.pack(pady=15, padx=15)
 
         #-----------------------|end of round menu|----------------------
 
